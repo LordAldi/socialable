@@ -6,6 +6,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import unicornbikeImg from "./../assets/images/unicornbike.jpg";
 import { Link } from "react-router-dom";
+import FindPeople from "../user/FindPeople";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -41,6 +42,7 @@ const Home = () => {
           Welcome to the MERN Skeleton home page
         </Typography>
       </CardContent>
+      {/* <FindPeople /> */}
     </Card>
   );
 };
