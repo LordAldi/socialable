@@ -17,6 +17,7 @@ import { read } from "./api-user.js";
 import { Redirect, Link } from "react-router-dom";
 import DeleteUser from "./DeleteUser";
 import FollowProfileButton from "./FollowProfileButton";
+import ProfileTabs from "./ProfileTabs";
 
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
@@ -135,6 +136,7 @@ const Profile = ({ match }) => {
           />
         </ListItem>
       </List>
+      <ProfileTabs user={values.user} />
     </Paper>
   );
 };
