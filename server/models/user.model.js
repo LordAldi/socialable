@@ -21,6 +21,8 @@ const UserSchema = new mongoose.Schema({
     data: Buffer,
     contentType: String,
   },
+  following: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
+  followers: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
   hashed_password: {
     type: String,
     required: "Password is required",
