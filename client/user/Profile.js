@@ -18,6 +18,7 @@ import { Redirect, Link } from "react-router-dom";
 import DeleteUser from "./DeleteUser";
 import FollowProfileButton from "./FollowProfileButton";
 import ProfileTabs from "./ProfileTabs";
+import { listByUser } from "../post/api-post";
 
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
@@ -40,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Profile = ({ match }) => {
   const classes = useStyles();
-  // const [user, setUser] = useState({});
+  const [posts, setPosts] = useState([]);
   const [values, setValues] = useState({
     user: { following: [], followers: [] },
     redirectToSignin: false,
@@ -72,6 +73,22 @@ const Profile = ({ match }) => {
       }
     });
   };
+  const loadPosts = (user) => {
+    listByUser(
+      {
+        userId: user,
+      },
+      {
+        t: jwt.token,
+      }
+    ).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setPosts(data);
+      }
+    });
+  };
   useEffect(() => {
     const abortController = new AbortController();
     const signal = abortController.signal;
@@ -83,6 +100,7 @@ const Profile = ({ match }) => {
         } else {
           let following = checkFollow(data);
           setValues({ ...values, user: data, following: following });
+          loadPosts(data._id);
         }
       }
     );
@@ -136,7 +154,7 @@ const Profile = ({ match }) => {
           />
         </ListItem>
       </List>
-      <ProfileTabs user={values.user} />
+      <ProfileTabs user={values.user} posts={posts} />
     </Paper>
   );
 };
