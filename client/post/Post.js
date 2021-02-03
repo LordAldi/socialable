@@ -13,6 +13,8 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import CommentIcon from "@material-ui/icons/Comment";
 import Divider from "@material-ui/core/Divider";
 import PropTypes from "prop-types";
+import { like, unlike } from "./api-post.js";
+
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 
@@ -59,7 +61,25 @@ const Post = (props) => {
     likes: props.post.likes.length,
     comments: props.post.comments,
   });
-
+  const clickLike = () => {
+    let callApi = values.like ? unlike : like;
+    const jwt = auth.isAuthenticated();
+    callApi(
+      {
+        userId: jwt.user._id,
+      },
+      {
+        t: jwt.token,
+      },
+      props.post._id
+    ).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setValues({ ...values, like: !values.like, likes: data.likes.length });
+      }
+    });
+  };
   return (
     <Card className={classes.card}>
       <CardHeader
@@ -95,7 +115,7 @@ const Post = (props) => {
       <CardActions>
         {values.like ? (
           <IconButton
-            // onClick={clickLike}
+            onClick={clickLike}
             className={classes.button}
             aria-label="Like"
             color="secondary"
@@ -104,7 +124,7 @@ const Post = (props) => {
           </IconButton>
         ) : (
           <IconButton
-            // onClick={clickLike}
+            onClick={clickLike}
             className={classes.button}
             aria-label="Unlike"
             color="secondary"
