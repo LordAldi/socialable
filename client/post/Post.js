@@ -17,6 +17,7 @@ import { like, unlike } from "./api-post.js";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
+import Comments from "./Comments";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -61,6 +62,9 @@ const Post = (props) => {
     likes: props.post.likes.length,
     comments: props.post.comments,
   });
+  const updateComments = (comments) => {
+    setValues({ ...values, comments: comments });
+  };
   const clickLike = () => {
     let callApi = values.like ? unlike : like;
     const jwt = auth.isAuthenticated();
@@ -143,11 +147,11 @@ const Post = (props) => {
         <span>{values.comments.length}</span>
       </CardActions>
       <Divider />
-      {/* <Comments
+      <Comments
         postId={props.post._id}
         comments={values.comments}
         updateComments={updateComments}
-      /> */}
+      />
     </Card>
   );
 };

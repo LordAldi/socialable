@@ -23,6 +23,9 @@ router.route("/api/posts/unlike").put(authCtrl.requireSignin, postCtrl.unlike);
 router
   .route("/api/posts/comment")
   .put(authCtrl.requireSignin, postCtrl.comment);
+router
+  .route("/api/posts/uncomment")
+  .put(authCtrl.requireSignin, postCtrl.uncomment);
 router.param("postId", postCtrl.postByID);
 router.param("userId", userCtrl.userByID);
 export default router;
